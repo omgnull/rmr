@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RMR api test application</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery-1.11.0.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/app.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div class="page-header">
+            <h1>RMR api test application</h1>
+        </div>
+        <div id="message"></div>
+        <div id="app">
+            <form role="form" action="/" method="post">
+                <div class="row">
+                    <div class="form-group col-md-2 col-xs-6">
+                        <label for="method">Method</label>
+                        <select id="method" class="form-control" name="method">
+                            <option value="GET" selected>GET</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
+                            <option value="DELETE">DELETE</option>
+                            <option value="HEAD">HEAD</option>
+                            <option value="PATCH">PATCH</option>
+                            <option value="OPTIONS">OPTIONS</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-10">
+                        <label for="url">Url</label>
+                        <input type="text" class="form-control" name="url" id="url" value="" placeholder="Input URL">
+                        <span id="example"><span>Example: </span><a href="http://digitaled.ru/freeapi/public/api/list/app_id/52">http://digitaled.ru/freeapi/public/api/list/app_id/52</a></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="wrapped rounded">
+                            <div class="form-group">
+                                <label><span class="glyphicon glyphicon-sort-by-attributes"></span> Parameters</label>
+                            </div>
+                            <div id="parameters"></div>
+                            <div class="form-group">
+                                <button id="add-parameter" type="button" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-plus"></span> Add parameter
+                                </button>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <button id="send" type="submit" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-send"></span> Send
+                                </button>
+                            </div>
+                    </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="wrapped rounded">
+                            <label>
+                                <span class="glyphicon glyphicon-cloud-download"></span> Results
+                            </label>
+                            <ul id="nav" class="nav nav-tabs">
+                                <li><a href="#request">Request</a></li>
+                                <li class="active"><a href="#response">Response</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane data-pane" id="request"></div>
+                                <div class="tab-pane data-pane active" id="response"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div id="parameter-template" class="parameter row">
+                <div class="form-group col-md-5">
+                    <label>Name</label>
+                    <input class="form-control" type="text" value="" name="params[]">
+                </div>
+                <div class="form-group col-md-5">
+                    <label>Value</label>
+                    <input class="form-control" type="text" value="" name="values[]">
+                </div>
+                <div class="remove form-group col-md-1">
+                    <a class="remove-parameter" href="#">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </a>
+                </div>
+            </div>
+            <div id="message-template" class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <script>
+        App.init();
+    </script>
+</body>

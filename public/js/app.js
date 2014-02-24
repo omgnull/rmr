@@ -51,12 +51,9 @@ var App = {
         jQuery
             .post("/api", jQuery("form").serialize())
             .done(function(data) {
-                console.log(data);
 
                 if (data['message']) {
-                    var message = scope.$message.clone();
-                    message.find('span').html(data['message']);
-                    jQuery("#message").append(message);
+                    scope.error(data['message']);
                     scope.$submit.removeAttr('disabled');
                     return;
                 }
@@ -70,7 +67,6 @@ var App = {
                     $container.html('');
 
                     $container.append('<h4>Headers</h4>');
-                    console.log(data[container]);
 
                     list = ['<ul>'];
                     for (var it = 0; it < data[container]['headers'].length; it++) {
@@ -88,6 +84,10 @@ var App = {
                 }
 
                 scope.$submit.removeAttr('disabled');
+            })
+            .fail(function(jqXHR, textStatus, message) {
+                scope.error(message);
+                scope.$submit.removeAttr('disabled');
             });
     },
     pretty: function(json) {
@@ -98,8 +98,7 @@ var App = {
         if (typeof json != 'string') {
             return JSON.stringify(json, undefined, 4);
         } else {
-            console.log(json.indexOf(0));
-            if (143 === json.indexOf(0)) {
+            if (0 === json.indexOf('<')) {
                 return this.prettyXml(json);
             }
 
@@ -135,5 +134,10 @@ var App = {
         });
 
         return formatted;
+    },
+    error: function(text) {
+        var message = this.$message.clone();
+        message.find('span').text(text);
+        jQuery("#message").append(message);
     }
 };

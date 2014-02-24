@@ -100,6 +100,16 @@ $app->post('/api', function(Request $request) use ($app, $config) {
             }
         }
 
+        // Just for fun, json uses only utf-8
+        // if we request google.com its returns windows-1251 charset response
+        $responseBody = $apiResponse->getContent();
+        preg_match('/charset=([0-9a-z\-]+)/i', $apiResponse->getHeader('Content-type'), $matches);
+
+        // we can try use mb_detect_encoding
+        if (isset($matches[1]) && $matches[1] !== 'UTF-8') {
+            $responseBody = iconv($matches[1], 'UTF-8', $responseBody);
+        }
+
         // Full response
         return $app->json(array(
             'request'   => array(
@@ -108,13 +118,13 @@ $app->post('/api', function(Request $request) use ($app, $config) {
             ),
             'response'  => array(
                 'headers'   => $apiResponse->getHeaders(),
-                'body'      => $apiResponse->getContent()
+                'body'      => $responseBody
             )
         ));
 
     } catch (\Buzz\Exception\ClientException $e) {
         return $app->json(array(
-            'message' => $e->getMessage()
+            'message' => $e->getMessage() . ' Something goes wrong ... errr.'
         ));
     }
 });
